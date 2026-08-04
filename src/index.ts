@@ -8,6 +8,7 @@ import initDb from "./config/DB"
 import userRouter from "./users/user.router"
 import vehicleRouter from "./vehicles/vehicle.router"
 import bookingRouter from "./Bookings/booking.router"
+import authRouter from "./auth/auth.router"
 
 app.get("/",(req:Request,res:Response)=>{
     res.send("server is runnig.let's goooo!.....")
@@ -21,7 +22,8 @@ app.use('/users',userRouter)
 app.use('/vehicles',vehicleRouter)
 //bookings
 app.use('/bookings',bookingRouter)
-
+//auth
+app.use('/auth',authRouter)
 app.listen(port,()=>{
     console.log(`server is running on ${port}`);
 })

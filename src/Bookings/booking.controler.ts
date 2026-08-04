@@ -20,6 +20,8 @@ const createBooking=async(req:Request,res:Response)=>{
     
 }
 const getBookings=async(req:Request,res:Response)=>{
+   
+  
      try {
         const result=await bookingService.getBookings()
         res.status(200).send({
@@ -36,6 +38,10 @@ const getBookings=async(req:Request,res:Response)=>{
 }
 const getSingleBooking=async(req:Request,res:Response)=>{
     const id=req.params.id
+     const loggedUser:any=req.user
+     if(loggedUser.role!=='admin' && loggedUser.id!==id){
+        return res.status(403).send({message:'forbidden access'})
+     }
      try {
         const result=await bookingService.getSingleBooking(id as string)
         res.status(200).send({
@@ -50,19 +56,46 @@ const getSingleBooking=async(req:Request,res:Response)=>{
         })
     }
 }
-const updateBooking=async(req:Request,res:Response)=>{
-   
+const updateBooking1=async(req:Request,res:Response)=>{
      try {
-        const result=await bookingService.updateBooking(req.body,req.params.id as string)
-        res.status(200).send({
+        const result=await bookingService.updateBooking_1(req.body,req.params.id as string) 
+        if(result){
+             res.status(200).send({
             success:true,
             message:'booking Record is updated',
             data:result.rows[0]
         })
-    } catch (error) {
+        }
+        else{
+            res.send({
+                message:'could not updated booking'
+            })
+        }
+            
+        
+       
+    } catch (error:any) {
         res.status(500).send({
             success:false,
-            message:'There was an error,Booking Data could not updated...'
+            message:'There was an error,Booking Data could not updated...',
+            details:error.message
+        })
+    }
+}
+const updateBooking2=async(req:Request,res:Response)=>{
+   
+     try {
+        const result=await bookingService.adminUpdateBooking(req.body,req.params.id as string)
+        res.status(200).send({
+            success:true,
+            message:'booking Record is updated',
+            data:(result.result.rows[0],result.updateVehicle.rows[0])
+        })
+    } catch (error:any) {
+        res.status(500).send({
+            success:false,
+            message:'There was an error,Booking Data could not updated...',
+            details:error.message
         })
     }
 }
@@ -87,7 +120,8 @@ export const bookingControler={
     createBooking,
     getBookings,
     getSingleBooking,
-    updateBooking,
+    updateBooking1,
+    updateBooking2,
     deleteBooking
 
 }

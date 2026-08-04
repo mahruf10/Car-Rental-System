@@ -1,5 +1,6 @@
 import { Request,Response } from "express"
 import { userService } from "./user.service";
+import { JwtPayload } from "jsonwebtoken";
 
 
 const createUser=async(req:Request,res:Response)=>{
@@ -7,13 +8,13 @@ const createUser=async(req:Request,res:Response)=>{
         const result=await userService.createUser(req.body)
         res.status(200).send({
             success:true,
-            message:'data is inserted',
+            message:'User create successfully.',
             data:result.rows[0]
         })
     } catch (error) {
         res.status(500).send({
             success:false,
-            message:'There was an error,data could not inserted...'
+            message:'There was an error...'
         })
     }
     
@@ -50,6 +51,12 @@ const getSingleUser=async(req:Request,res:Response)=>{
     }
 }
 const updateUser=async(req:Request,res:Response)=>{
+
+    const loggedUser:any=req.user
+    
+    if(loggedUser.role!=='admin' && loggedUser.id!==Number(req.params.id) ){
+        return res.status(403).send({message:'forbidden access'})
+    }
    
      try {
         const result=await userService.updateUser(req.body,req.params.id as string)

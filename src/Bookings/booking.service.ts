@@ -2,6 +2,7 @@ import { pool } from "../config/DB"
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken'
 import config from "../config";
+
 const createBooking=async(payload:Record<string,unknown>)=>{
 
     const{rent_start_date,rent_end_date,total_price,status,vehicle_id,customer_id}=payload
@@ -29,12 +30,32 @@ const getSingleBooking=async(id:string)=>{
      
         return result
 }
-const updateBooking=async(payload:Record<string,unknown>,id:string)=>{
+const updateBooking_1=async(payload:Record<string,unknown>,id:string)=>{
     const{status}=payload
-    const result=await pool.query(`
+
+    const findBooking=await pool.query(`
+        SELECT * FROM bookings  WHERE id=$1 AND rent_start_date > CURRENT_DATE 
+        `,[id])
+        
+    if(findBooking.rows.length === 0){
+        throw new Error('Booking not found or rental period has already started')
+    }
+ const result=await pool.query(`
         UPDATE bookings SET status=$1 WHERE id=$2 RETURNING *
         `,[status,id])
         return result
+    }
+const adminUpdateBooking=async(payload:Record<string,unknown>,id:string)=>{
+    const {status,availability_status}=payload
+    const result=await pool.query(`
+        UPDATE bookings SET status=$1 WHERE id=$2 RETURNING *
+        `,[status,id])
+   const vehicle_id=result.rows[0].vehicle_id
+   
+        const updateVehicle=await pool.query(`
+            UPDATE vehicles SET availability_status=$1 WHERE id=$2 RETURNING *
+            `,[availability_status,vehicle_id])
+        return {result,updateVehicle}
 }
 const deleteBooking=async(id:string)=>{
     const result=await pool.query(`
@@ -46,6 +67,7 @@ export const bookingService={
     createBooking,
     getBookings,
     getSingleBooking,
-    updateBooking,
+    updateBooking_1,
+    adminUpdateBooking,
     deleteBooking
 }
