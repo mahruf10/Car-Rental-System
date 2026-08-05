@@ -29,28 +29,27 @@ A backend API for a vehicle rental management system that handles:
 ### Vehicles
 | Method | Endpoint | Access | Description |
 |--------|----------|--------|-------------|
-| POST | `/api/v1/vehicles` | Admin only | Add new vehicle with name, type, registration, daily rent price and availability status |
-| GET | `/api/v1/vehicles` | Public | View all vehicles in the system |
-| GET | `/api/v1/vehicles/:vehicleId` | Public | View specific vehicle details |
-| PUT | `/api/v1/vehicles/:vehicleId` | Admin only | Update vehicle details, daily rent price or availability status |
-| DELETE | `/api/v1/vehicles/:vehicleId` | Admin only | Delete vehicle (only if no active bookings exist) |
+| POST |  Admin only | Add new vehicle with name, type, registration, daily rent price and availability status |
+| GET | Public | View all vehicles in the system |
+| GET | Public | View specific vehicle details |
+| PUT | Admin only | Update vehicle details, daily rent price or availability status |
+| DELETE | Admin only | Delete vehicle (only if no active bookings exist) |
 
 ---
 
 ### Users
 | Method | Endpoint | Access | Description |
 |--------|----------|--------|-------------|
-| GET | `/api/v1/users` | Admin only | View all users in the system |
-| PUT | `/api/v1/users/:userId` | Admin or Own | Admin: Update any user's role or details<br>Customer: Update own profile only |
-| DELETE | `/api/v1/users/:userId` | Admin only | Delete user (only if no active bookings exist) |
+| GET | Admin only | View all users in the system |
+| PUT |Admin or Own | Admin: Update any user's role or details<br>Customer: Update own profile only |
+| DELETE | Admin only | Delete user (only if no active bookings exist) |
 
 ---
 
 ### Bookings
 | Method | Endpoint | Access | Description |
 |--------|----------|--------|-------------|
-| POST | `/api/v1/bookings` | Customer or Admin | Create booking with start/end dates<br>• Validates vehicle availability<br>• Calculates total price (daily rate × duration)<br>• Updates vehicle status to "booked" |
-| GET | `/api/v1/bookings` | Role-based | Admin: View all bookings<br>Customer: View own bookings only |
-| PUT | `/api/v1/bookings/:bookingId` | Role-based | Customer: Cancel booking (before start date only)<br>Admin: Mark as "returned" (updates vehicle to "available")<br>System: Auto-mark as "returned" when period ends |
-
+| POST | Customer or Admin | Create booking with start/end dates<br>• Validates vehicle availability<br>• Calculates total price (daily rate × duration)<br>• Updates vehicle status to "booked" |
+| GET | Role-based | Admin: View all bookings<br>Customer: View own bookings only |
+| PUT | Role-based | Customer: Cancel booking (before start date only)<br>Admin: Mark as "returned" (updates vehicle to "available")
 ---
