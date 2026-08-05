@@ -52,7 +52,3 @@ A backend API for a vehicle rental management system that handles:
 | POST |  Customer or Admin | Create booking with start/end dates<br>• Validates vehicle availability<br>• Calculates total price (daily rate × duration)<br>• Updates vehicle status to "booked" |
 | GET | Role-based | Admin: View all bookings<br>Customer: View own bookings only |
 | PUT | Role-based | Customer: Cancel booking (before start date only)<br>Admin: Mark as "returned" (updates vehicle to "available")<br>System: Auto-mark as "returned" when period ends |
-
----ings only |
-| PUT | Role-based | Customer: Cancel booking (before start date only)<br>Admin: Mark as "returned" (updates vehicle to "available")
----
