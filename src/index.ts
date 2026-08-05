@@ -1,7 +1,3 @@
-const express=require("express")
-const app=express()
-const port=config.port
-app.use(express.json())
 import { Request,Response } from "express"
 import config from "./config"
 import initDb from "./config/DB"
@@ -10,6 +6,10 @@ import vehicleRouter from "./vehicles/vehicle.router"
 import bookingRouter from "./Bookings/booking.router"
 import authRouter from "./auth/auth.router"
 
+const express=require("express")
+const app=express()
+const port=config.port
+app.use(express.json())
 app.get("/",(req:Request,res:Response)=>{
     res.send("server is runnig.let's goooo!.....")
 })
