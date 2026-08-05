@@ -27,7 +27,7 @@ A backend API for a vehicle rental management system that handles:
 ---
 
 ### Vehicles
-| Method | Endpoint | Access | Description |
+| Method | Access | Description |
 |--------|----------|--------|-------------|
 | POST |  Admin only | Add new vehicle with name, type, registration, daily rent price and availability status |
 | GET | Public | View all vehicles in the system |
@@ -38,7 +38,7 @@ A backend API for a vehicle rental management system that handles:
 ---
 
 ### Users
-| Method | Endpoint | Access | Description |
+| Method | Access | Description |
 |--------|----------|--------|-------------|
 | GET | Admin only | View all users in the system |
 | PUT |Admin or Own | Admin: Update any user's role or details<br>Customer: Update own profile only |
@@ -47,7 +47,7 @@ A backend API for a vehicle rental management system that handles:
 ---
 
 ### Bookings
-| Method | Endpoint | Access | Description |
+| Method | Access | Description |
 |--------|----------|--------|-------------|
 | POST | Customer or Admin | Create booking with start/end dates<br>• Validates vehicle availability<br>• Calculates total price (daily rate × duration)<br>• Updates vehicle status to "booked" |
 | GET | Role-based | Admin: View all bookings<br>Customer: View own bookings only |
